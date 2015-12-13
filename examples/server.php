@@ -32,7 +32,7 @@ Log::error('fff');
             break;
     }
 
-    return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
+    return "{$fromUser['nickname']} 您好！欢迎关注 overtrue!";
 });
 
 $server->serve()->send();
