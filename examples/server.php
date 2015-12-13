@@ -11,16 +11,18 @@
 
 include __DIR__.'/base.php';
 
+use EasyWeChat\Support\Log;
+
 $server = $app['server'];
 $user   = $app['user'];
 
 $server->setMessageHandler(function ($message) use ($user) {
     $fromUser = $user->get($message->FromUserName);
-
-return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
+Log::error('fff');
     switch ($message->MsgType) {
         case 'text':
             if (false !== stripos($message->content, 'oauth')) {
+                Log::info('request received.');
                 return '点击这里去授权：'.BASE_URL.'/examples/oauth_redirect.php';
             }
             break;
