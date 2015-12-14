@@ -73,10 +73,10 @@ class Server
      * @var array
      */
     protected $events = array(
-                         'received',
-                         'served',
-                         'responseCreated',
-                        );
+        'received',
+        'served',
+        'responseCreated',
+    );
 
     /**
      * constructor
@@ -160,10 +160,10 @@ class Server
         $this->prepareInput();
 
         $input = array(
-                  $this->token,
-                  $this->input->get('timestamp'),
-                  $this->input->get('nonce'),
-                 );
+            $this->token,
+            $this->input->get('timestamp'),
+            $this->input->get('nonce'),
+        );
 
         if ($this->input->get('signature')
             && $this->signature($input) !== $this->input->get('signature')
@@ -379,6 +379,30 @@ class Server
         }
 
         return $default;
+    }
+
+    /**
+     * 获取微信事件类型
+     *
+     * @return string
+     **/
+    public function getMsgType() {
+        $this->prepareInput();
+        $this->call('received', array($this->input));
+        $types = [
+            'msgtype' => $this->input->get('MsgType'),
+            'event' => $this->input->get('Event'),
+            'eventkey' => $this->input->get('EventKey'),
+            'content' => $this->input->get('Content'),
+            'from_user_name' => $this->input->get('FromUserName'),
+            'to_user_name' => $this->input->get('ToUserName'),
+            'encrypt_type' => $this->input->get('encrypt_type'),
+            'signature' => $this->input->get('signature'),
+            'timestamp' => $this->input->get('timestamp'),
+            'nonce' => $this->input->get('nonce'),
+            'msg_signature' => $this->input->get('msg_signature'),
+        ];
+        return  $types;//$this->input->get('MsgType').'-'.$this->input->get('Event')  .'-'.$this->input->get('EventKey') .'-'. $this->input;
     }
 
     /**
